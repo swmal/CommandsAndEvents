@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CommandsAndEvents.Events;
 
-namespace CommandsAndEvents.EventHandlers
+namespace CommandsAndEvents.Events
 {
     public interface IDomainEventHandler
     {

@@ -1,12 +1,11 @@
-﻿using CommandsAndEvents.EventHandlers;
-using CommandsAndEvents.Events;
+﻿using CommandsAndEvents.Events;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace CommandsAndEvents
+namespace CommandsAndEvents.Events
 {
     public class DomainEventHandler<T> : IDomainEventHandler
         where T : Event

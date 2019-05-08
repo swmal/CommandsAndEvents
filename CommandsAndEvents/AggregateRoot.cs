@@ -12,7 +12,7 @@ namespace CommandsAndEvents
 
         public IEnumerable<Event> DomainEvents => _events;
 
-        public void AddEvent(Event e)
+        public void EmitEvent(Event e)
         {
             e.Id = Guid.NewGuid();
             e.Timestamp = DateTime.Now;

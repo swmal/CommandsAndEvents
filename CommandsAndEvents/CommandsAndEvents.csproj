@@ -6,6 +6,9 @@
     <Company />
     <Description>A library supporting commands and domain events for aggregate roots.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://github.com/swmal/CommandsAndEvents/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/swmal/CommandsAndEvents</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/swmal/CommandsAndEvents</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

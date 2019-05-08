@@ -1,24 +1,23 @@
 ﻿using CommandsAndEvents.Commands;
+using CommandsAndEvents.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CommandsAndEvents
+namespace CommandsAndEvents.Commands
 {
     public abstract class CommandHandler<T, T1>
         where T : AggregateRoot, new()
         where T1 : Command<T>
     {
-        public CommandHandler(T1 command)
+        public CommandHandler(IDomainEventHandlerResolver eventHandlerResolver)
         {
-            _root = new T();
-            _command = command;
+            _eventHandlerResolver = eventHandlerResolver 
+                ?? throw new ArgumentNullException("eventHandlerResolver");
         }
 
-        public abstract IDomainEventHandlerResolver EventHandlerResolver { get; }
-
-        protected T1 Handler { get; private set; }
+        private readonly IDomainEventHandlerResolver _eventHandlerResolver;
 
         public CommandHandler(T1 command, T aggregateRoot)
         {
@@ -38,16 +37,30 @@ namespace CommandsAndEvents
             Validator.ValidateObject(_command, ctx);
         }
 
-        public void Execute()
+        /// <summary>
+        /// Execute the commandhandler on the supplied aggregate root.
+        /// </summary>
+        /// <param name="aggregateRoot"></param>
+        /// <param name="command"></param>
+        public void Execute(T aggregateRoot, T1 command)
         {
             ValidateCommand();
-            ExecuteCommand(_root, _command);
+            ExecuteCommand(aggregateRoot, _command);
             foreach(var evt in _root.DomainEvents)
             {
-                var handler = EventHandlerResolver.ResolveHandler(evt.GetType());
+                var handler = _eventHandlerResolver.ResolveHandler(evt.GetType());
                 handler.HandleEvent(evt);
             }
             OnCommandExecuted(_root);
+        }
+
+        /// <summary>
+        /// Execute the commandhandler, a new aggregate root will be instanciated.
+        /// </summary>
+        /// <param name="command"></param>
+        public void Execute(T1 command)
+        {
+            Execute(new T(), command);
         }
     }
 }
