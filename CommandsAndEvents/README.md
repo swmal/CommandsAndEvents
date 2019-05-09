@@ -25,11 +25,10 @@ Lightweight library with support for command, events and aggregates
 
   ```
 
-     ```csharp
+```csharp
  // An event
  public class ValueApplied : Event
  {
 	public string Value { get; set;}
  }
-
   ```
