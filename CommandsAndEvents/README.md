@@ -54,7 +54,7 @@ Let´s have a look at the basic concepts.
   ```
   ## Command handlers
   ```csharp
-  public class ApplyValueCommandHandler<MyAggregateRoot, ApplyValue>
+  public class ApplyValueCommandHandler : CommandHandler<MyAggregateRoot, ApplyValue>
   {
 	  protected override void ExecuteCommand(MyAggregateRoot aggregateRoot, ApplyValue command)
 	  {
