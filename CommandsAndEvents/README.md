@@ -1,5 +1,7 @@
 # CommandsAndEvents
-Lightweight library with support for command, events and aggregates
+Lightweight library with support for commands, domain events and aggregates.
+
+Let´s have a look at the basic concepts.
 
 ## Aggregates
  ```csharp
