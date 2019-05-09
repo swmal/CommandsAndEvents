@@ -46,10 +46,10 @@ Lightweight library with support for command, events and aggregates
   	  public ValueAppliedEventHandler(EventStreamProvider eventStream) : base(eventStream){}
   }
 
-    ```
+  ```
 
-	### Register Event handlers
-	```csharp
+  ### Register Event handlers
+  ```csharp
 	public class MyEventHandlerResolver : IDomainHandlerResolver
 	{
 		IDomainEventHandler ResolveHandler(Type type)
