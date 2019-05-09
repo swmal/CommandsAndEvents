@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandsAndEvents" Version="1.0.1" />
     <PackageReference Include="EventStore.Client" Version="5.0.1" />
   </ItemGroup>
 

@@ -19,5 +19,7 @@ namespace CommandsAndEvents.Events
         /// <param name="eventName">event type</param>
         /// <param name="data">byte array containing the event data</param>
         public abstract void Publish(Guid eventId, string stream, string eventName, byte[] data);
+
+        public static EventStreamProvider Default = new DefaultEventstreamProvider();
     }
 }
