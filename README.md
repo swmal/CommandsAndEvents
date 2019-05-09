@@ -1,5 +1,7 @@
 # CommandsAndEvents
-Lightweight library with support for command, events and aggregates
+Lightweight library with support for commands, domain events and aggregates.
+
+Let´s have a look at the basic concepts.
 
 ## Aggregates
  ```csharp
@@ -63,11 +65,11 @@ Lightweight library with support for command, events and aggregates
   ```
   ## Command handlers
   ```csharp
-  public class MyCommandHandler<MyAggregateRoot, ApplyValue>
+  public class ApplyValueCommandHandler<MyAggregateRoot, ApplyValue>
   {
-  	  public MyCommandHandler() : this(new MyEventHandlerResolver()){}
+	  public ApplyValueCommandHandler() : this(new MyEventHandlerResolver()){}
 
-	  public MyCommandHandler(IDomainEventHandlerResolver resolver) : base(resolver){}
+	  public ApplyValueCommandHandler(IDomainEventHandlerResolver resolver) : base(resolver){}
 
 	  protected override void ExecuteCommand(MyAggregateRoot aggregateRoot, ApplyValue command)
 	  {
