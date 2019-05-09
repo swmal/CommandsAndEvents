@@ -14,7 +14,7 @@ namespace CommandsAndEvents.Events
         {
             _eventStream = eventStream;
         }
-        // TODO: IOC...
+
         private readonly EventStreamProvider _eventStream;
         private T CastEvent(Event e)
         {

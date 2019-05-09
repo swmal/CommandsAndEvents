@@ -9,6 +9,8 @@
     <PackageLicenseUrl>https://github.com/swmal/CommandsAndEvents/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/swmal/CommandsAndEvents</PackageProjectUrl>
     <RepositoryUrl>https://github.com/swmal/CommandsAndEvents</RepositoryUrl>
+    <Version>1.0.1</Version>
+    <PackageTags>DDD, Commands, Events</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

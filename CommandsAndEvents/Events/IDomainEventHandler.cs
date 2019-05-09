@@ -5,8 +5,15 @@ using CommandsAndEvents.Events;
 
 namespace CommandsAndEvents.Events
 {
+    /// <summary>
+    /// Interface for domain event handlers
+    /// </summary>
     public interface IDomainEventHandler
     {
+        /// <summary>
+        /// Handles the event
+        /// </summary>
+        /// <param name="e">The <see cref="Event"/> to handle</param>
         void HandleEvent(Event e);
     }
 }
