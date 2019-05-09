@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CommandsAndEvents.Events
 {
-    public class DefaultEventstreamProvider : EventStreamProvider
+    public class ConsoleEventstreamProvider : EventStreamProvider
     {
         public override void Publish(Guid eventId, string stream, string eventName, byte[] data)
         {

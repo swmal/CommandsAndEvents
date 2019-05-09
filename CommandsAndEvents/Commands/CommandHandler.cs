@@ -16,17 +16,8 @@ namespace CommandsAndEvents.Commands
         where T : AggregateRoot, new()
         where T1 : Command<T>
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="eventHandlerResolver">A <see cref="IDomainEventHandlerResolver"/></param>
-        public CommandHandler(IDomainEventHandlerResolver eventHandlerResolver)
-        {
-            _eventHandlerResolver = eventHandlerResolver 
-                ?? throw new ArgumentNullException("eventHandlerResolver");
-        }
 
-        private readonly IDomainEventHandlerResolver _eventHandlerResolver;
+        private readonly DomainEventHandlerResolver _eventHandlerResolver = new DomainEventHandlerResolver();
 
         /// <summary>
         /// Executes a command on the aggregate root.
@@ -67,8 +58,9 @@ namespace CommandsAndEvents.Commands
             ExecuteCommand(aggregateRoot, command);
             foreach(var evt in aggregateRoot.DomainEvents)
             {
-                var handler = _eventHandlerResolver.ResolveHandler(evt.GetType());
-                handler.HandleEvent(evt);
+                var handlers = _eventHandlerResolver.ResolveHandler(evt.GetType());
+                foreach(var handler in handlers)
+                    handler.HandleEvent(evt);
             }
             OnCommandExecuted(aggregateRoot);
         }

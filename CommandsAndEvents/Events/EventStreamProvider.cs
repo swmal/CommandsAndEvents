@@ -20,6 +20,6 @@ namespace CommandsAndEvents.Events
         /// <param name="data">byte array containing the event data</param>
         public abstract void Publish(Guid eventId, string stream, string eventName, byte[] data);
 
-        public static EventStreamProvider Default = new DefaultEventstreamProvider();
+        public static EventStreamProvider ConsoleLogger = new ConsoleEventstreamProvider();
     }
 }
