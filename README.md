@@ -56,10 +56,6 @@ Let´s have a look at the basic concepts.
   ```csharp
   public class ApplyValueCommandHandler<MyAggregateRoot, ApplyValue>
   {
-	  public ApplyValueCommandHandler() : this(new MyEventHandlerResolver()){}
-
-	  public ApplyValueCommandHandler(IDomainEventHandlerResolver resolver) : base(resolver){}
-
 	  protected override void ExecuteCommand(MyAggregateRoot aggregateRoot, ApplyValue command)
 	  {
 	  	  aggregateRoot.ApplyValue(command.Value);
