@@ -16,6 +16,7 @@ namespace CommandsAndEvents.Tests.TestObjects
         public void SetTest(string value)
         {
             Value = value;
+            EmitEvent(new TestEvent { Value = value });
         }
     }
 }

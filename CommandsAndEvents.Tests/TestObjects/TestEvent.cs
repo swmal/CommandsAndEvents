@@ -7,6 +7,7 @@ namespace CommandsAndEvents.Tests.TestObjects
 {
     public class TestEvent : Event
     {
-        public override string Stream => throw new NotImplementedException();
+        public string Value { get; set; }
+        public override string Stream => "MyTestStream";
     }
 }

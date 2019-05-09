@@ -13,6 +13,8 @@ Let´s have a look at the basic concepts.
 	public void ApplyValue(string value)
 	{
 		this.Value = value;
+		// emit a domain event
+		EmitEvent(new ValueApplied{ Value = value });
 	}
  }
 
@@ -32,36 +34,23 @@ Let´s have a look at the basic concepts.
  public class ValueApplied : Event
  {
 	public string Value { get; set;}
+
+	public override string Stream => "MyTestStream";
  }
   ```
 
   ## Event handlers
-  ### Event handler
+  Event handlers will register automatically and append the event to
+  the stream specified in the Event.
+  To publish the event the Event handler will use any class that inherits
+  the EventStreamProvider class available in this library.
   ```csharp
   // an eventhandler for the event above
   public class ValueAppliedEventHandler : DomainEventHandler<ValueApplied>
   {
-	  // Add a default constructor that injects a EventStreamProvider that logs to the console.
-	  public ValueAppliedEventHandler() : this(EventStreamProvider.Default){}
 
-	  // constructor injection of an EventStreamProvider
-  	  public ValueAppliedEventHandler(EventStreamProvider eventStream) : base(eventStream){}
   }
 
-  ```
-
-  ### Register Event handlers
-  ```csharp
-	public class MyEventHandlerResolver : IDomainHandlerResolver
-	{
-		IDomainEventHandler ResolveHandler(Type type)
-		{
-			private static Dictionary<Type, IDomainEventHandler> _handlers => new Dictionary<Type, IDomainEventHandler>()
-			{
-				{ typeof(ValueApplied), new ValueAppliedEventHandler() }
-			};
-		}
-	}
   ```
   ## Command handlers
   ```csharp

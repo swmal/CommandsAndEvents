@@ -31,10 +31,10 @@ namespace CommandsAndEvents.Events
 
         private void RegisterEventStreams()
         {
-            var eventStreamTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(a => a != typeof(DomainEventHandlerResolver).Assembly)
-                .SelectMany(s => s.GetExportedTypes())
-                .Where(t => t.IsAssignableFrom(typeof(EventStreamProvider)) && !t.IsAbstract && t.IsClass);
+            var assemblies = GetAssemblies();
+            var allTypes = assemblies.SelectMany(s => s.GetExportedTypes());
+                
+            var eventStreamTypes = allTypes.Where(t => t.IsSubclassOf(typeof(EventStreamProvider)) && !t.IsAbstract && t.IsClass);
             if(eventStreamTypes == null || eventStreamTypes.Count() == 0)
             {
                 _eventStreams.Add(EventStreamProvider.ConsoleLogger);
@@ -49,21 +49,34 @@ namespace CommandsAndEvents.Events
         private void RegisterHandlers()
         {
             // scan the assemblies for IDomainHandler instances
-            var handlers = AppDomain.CurrentDomain.GetAssemblies()
+            var handlers = GetAssemblies()
                 .SelectMany(s => s.GetExportedTypes())
-                .Where(t => t.IsAssignableFrom(typeof(IDomainEventHandler)) && !t.IsAbstract && t.IsClass);
+                .Where(t => typeof(IDomainEventHandler).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass);
             // add the handlers
             foreach (var handlerType in handlers)
             {
-                if (!_handlers.ContainsKey(handlerType))
-                    _handlers[handlerType] = new List<IDomainEventHandler>();
+                var baseType = handlerType.BaseType;
+                var eventType = baseType.GetGenericArguments()[0];
+                if (!_handlers.ContainsKey(eventType))
+                    _handlers[eventType] = new List<IDomainEventHandler>();
                 foreach(var eventStream in _eventStreams)
                 {
                     var handlerInstance = (IDomainEventHandler)Activator.CreateInstance(handlerType, new object[] { eventStream });
-                    _handlers[handlerType].Add(handlerInstance);
+                    _handlers[eventType].Add(handlerInstance);
                 }
                 
             }
+        }
+
+        private IEnumerable<Assembly> GetAssemblies()
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .Where(a => a != typeof(DomainEventHandlerResolver).Assembly 
+                && !a.IsDynamic 
+                && !a.FullName.StartsWith("System") 
+                && !a.FullName.StartsWith("Microsoft") 
+                && !a.FullName.StartsWith("Newtonsoft")
+                && !a.FullName.StartsWith("Eventstore"));
         }
 
         /// <summary>
