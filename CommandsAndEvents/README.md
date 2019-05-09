@@ -60,4 +60,18 @@ Lightweight library with support for command, events and aggregates
 			};
 		}
 	}
-	```
+  ```
+  ## Command handlers
+  ```csharp
+  public class MyCommandHandler<MyAggregateRoot, ApplyValue>
+  {
+  	  public MyCommandHandler() : this(new MyEventHandlerResolver()){}
+
+	  public MyCommandHandler(IDomainEventHandlerResolver resolver) : base(resolver){}
+
+	  protected override void ExecuteCommand(MyAggregateRoot aggregateRoot, ApplyValue command)
+	  {
+	  	  aggregateRoot.ApplyValue(command.Value);
+	  }
+  }
+  ```

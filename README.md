@@ -24,11 +24,54 @@ Lightweight library with support for command, events and aggregates
  }
 
   ```
-
+ ## Events
 ```csharp
  // An event
  public class ValueApplied : Event
  {
 	public string Value { get; set;}
  }
+  ```
+
+  ## Event handlers
+  ### Event handler
+  ```csharp
+  // an eventhandler for the event above
+  public class ValueAppliedEventHandler : DomainEventHandler<ValueApplied>
+  {
+	  // Add a default constructor that injects a EventStreamProvider that logs to the console.
+	  public ValueAppliedEventHandler() : this(EventStreamProvider.Default){}
+
+	  // constructor injection of an EventStreamProvider
+  	  public ValueAppliedEventHandler(EventStreamProvider eventStream) : base(eventStream){}
+  }
+
+  ```
+
+  ### Register Event handlers
+  ```csharp
+	public class MyEventHandlerResolver : IDomainHandlerResolver
+	{
+		IDomainEventHandler ResolveHandler(Type type)
+		{
+			private static Dictionary<Type, IDomainEventHandler> _handlers => new Dictionary<Type, IDomainEventHandler>()
+			{
+				{ typeof(ValueApplied), new ValueAppliedEventHandler() }
+			};
+		}
+	}
+  ```
+  ## Command handlers
+  ```csharp
+  public class MyCommandHandler<MyAggregateRoot, ApplyValue>
+  {
+  	  public MyCommandHandler() : this(new MyEventHandlerResolver()){}
+
+	  public MyCommandHandler(IDomainEventHandlerResolver resolver) : base(resolver){}
+
+	  protected override void ExecuteCommand(MyAggregateRoot aggregateRoot, ApplyValue command)
+	  {
+	  	  aggregateRoot.ApplyValue(command.Value);
+	  }
+  }
   ```
