@@ -7,11 +7,12 @@ namespace CommandsAndEvents.Events
 {
     public class DomainEventHandlers
     {
-        public static void Publish(Event e, IDomainEventHandlerResolver resolver)
+        public static void Publish(Event e, DomainEventHandlerResolver resolver)
         {
             var type = e.GetType();
-            var handler = resolver.ResolveHandler(type);
-            handler.HandleEvent(e);
+            var handlers = resolver.ResolveHandler(type);
+            foreach(var handler in handlers)
+                handler.HandleEvent(e);
         }
     }
 }
