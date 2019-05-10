@@ -38,7 +38,23 @@ Let´s have a look at the basic concepts.
  {
 	public string Value { get; set;}
 
-	public override string Stream => "MyTestStream";
+	public override string Stream => "MyAggregateRoot";
+ }
+  ```
+  The thought behind this library is that we have one eventstream per aggregate.
+  To avoid having to specify the stream on each event, we can create a base class
+  for each aggregate and seal the Stream property.
+
+```csharp
+ public abstract class MyAggregateRootEvent : Event
+ {
+
+	public override sealed string Stream => "MyAggregateRoot";
+ }
+
+ public class ValueApplied : MyAggregateRootEvent
+ {
+	public string Value { get; set;}
  }
   ```
 
