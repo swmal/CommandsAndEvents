@@ -20,10 +20,13 @@ Let´s have a look at the basic concepts.
 
   ```
   ## Commands
+  Commands can be decorated with DataAnnotations and will be validated
+  by this library when executed.
    ```csharp
  // A command
  public class ApplyValue : Command<MyAggregateRoot>
  {
+	[Required]
 	public string Value { get; set;}
  }
 
