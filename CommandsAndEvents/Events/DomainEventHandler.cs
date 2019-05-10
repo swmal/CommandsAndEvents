@@ -33,7 +33,7 @@ namespace CommandsAndEvents.Events
             Validator.ValidateObject(evt, ctx);
         }
         
-        public void HandleEvent(Event evt)
+        public virtual void HandleEvent(Event evt)
         {
             var e = CastEvent(evt);
             ValidateEvent(e);

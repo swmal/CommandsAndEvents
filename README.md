@@ -67,7 +67,9 @@ Let´s have a look at the basic concepts.
   // an eventhandler for the event above
   public class ValueAppliedEventHandler : DomainEventHandler<ValueApplied>
   {
-
+	// default behaviour is to publish the event on the stream.
+	// if required this method can be overridden here
+	// public override void HandleEvent(Event evt){}
   }
 
   ```
