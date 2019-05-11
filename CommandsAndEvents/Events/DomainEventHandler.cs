@@ -10,6 +10,7 @@ namespace CommandsAndEvents.Events
     public class DomainEventHandler<T> : IDomainEventHandler
         where T : Event
     {
+        public DomainEventHandler() : this(EventStreamProvider.ConsoleLogger) { }
         public DomainEventHandler(EventStreamProvider eventStream)
         {
             _eventStream = eventStream;
