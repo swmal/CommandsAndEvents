@@ -37,10 +37,12 @@ namespace CommandsAndEvents.Events
             var eventStreamTypes = allTypes.Where(t => t.IsSubclassOf(typeof(EventStreamProvider)) && !t.IsAbstract && t.IsClass);
             if(eventStreamTypes == null || eventStreamTypes.Count() == 0)
             {
+                Console.WriteLine("No handler found, adding Console logger.");
                 _eventStreams.Add(EventStreamProvider.ConsoleLogger);
             }
             foreach (var eventStreamType in eventStreamTypes)
             {
+                Console.WriteLine("Logger found: " + eventStreamType.FullName);
                 var eventStream = (EventStreamProvider)Activator.CreateInstance(eventStreamType);
                 _eventStreams.Add(eventStream);
             }
@@ -61,7 +63,8 @@ namespace CommandsAndEvents.Events
                     _handlers[eventType] = new List<IDomainEventHandler>();
                 foreach(var eventStream in _eventStreams)
                 {
-                    var handlerInstance = (IDomainEventHandler)Activator.CreateInstance(handlerType, new object[] { eventStream });
+                    var handlerInstance = (IDomainEventHandler)Activator.CreateInstance(handlerType);
+                    handlerInstance.SetEventStreamProvider(eventStream);
                     _handlers[eventType].Add(handlerInstance);
                 }
                 

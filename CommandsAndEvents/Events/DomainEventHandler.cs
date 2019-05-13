@@ -10,13 +10,18 @@ namespace CommandsAndEvents.Events
     public class DomainEventHandler<T> : IDomainEventHandler
         where T : Event
     {
-        public DomainEventHandler() : this(EventStreamProvider.ConsoleLogger) { }
-        public DomainEventHandler(EventStreamProvider eventStream)
+        public DomainEventHandler()
+        {
+            SetEventStreamProvider(EventStreamProvider.ConsoleLogger);
+        }
+
+
+        private EventStreamProvider _eventStream;
+
+        public void SetEventStreamProvider(EventStreamProvider eventStream)
         {
             _eventStream = eventStream;
         }
-
-        private readonly EventStreamProvider _eventStream;
         private T CastEvent(Event e)
         {
             return e as T;

@@ -20,7 +20,7 @@ namespace CommandsAndEvents
         /// <summary>
         /// Id of the Aggregate root
         /// </summary>
-        public Guid Id { get; set; }
+        public virtual Guid Id { get; set; }
 
         /// <summary>
         /// Domain events emitted after a command is executed.

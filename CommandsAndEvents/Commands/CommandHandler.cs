@@ -16,6 +16,10 @@ namespace CommandsAndEvents.Commands
         where T : AggregateRoot, new()
         where T1 : Command<T>
     {
+        public CommandHandler()
+        {
+
+        }
 
         private readonly DomainEventHandlerResolver _eventHandlerResolver = new DomainEventHandlerResolver();
 

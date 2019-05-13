@@ -7,8 +7,6 @@ namespace CommandsAndEvents.Tests.TestObjects
 {
     public class TestEventHandler : DomainEventHandler<TestEvent>
     {
-        public TestEventHandler(EventStreamProvider eventStream) : base(eventStream)
-        {
-        }
+
     }
 }
